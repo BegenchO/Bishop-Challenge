@@ -56,10 +56,14 @@ object Main {
         var currentX = startX
         var currentY = startY
         var currentMoveNum = 1
+        var prevDirectionX = ""
+        var prevDirectionY = ""
+        var currentDirectionX = ""
+        var currentDirectionY = ""
 
         // Continue moving until you get there or run out of moves requested, whichever comes first
         //while ((currentMoveNum < (requestedMoveNum.toInt + 1)) || (currentX != endX && currentY != endY)) {
-        while (currentX != endX && currentY != endY) {
+        while (currentX != endX || currentY != endY) {
 
             println("Checking direction...")
             // Check direction to move
@@ -67,41 +71,29 @@ object Main {
             // First check if left or right
             // Then check if down or up
 
-
-            var prevDirectionX = ""
-            var prevDirectionY = ""
-
-            var currentDirectionX = ""
-            var currentDirectionY = ""
-
-            show(s"Current x: ${currentX}")
-            show(s"Current y: ${currentY}")
-            show(s"Current move num: ${currentMoveNum}")
-
-
-            if (currentX > endX) {
+            if (currentX > endX && currentX > 1) {
                 // move left
                 currentX -= 1
                 currentDirectionX = "left"
-                if (currentY > endY) {
+                if (currentY >= endY && currentY > 1) {
                     // go down
                     currentY -= 1
                     currentDirectionY = "down"
-                } else if (currentY <= endY) {
+                } else if (currentY <= endY && currentY < 8) {
                     // go up
                     currentY += 1
                     currentDirectionY = "up"
                 }
 
-            } else if (currentX <= endX) {
+            } else if (currentX <= endX && currentX < 8) {
                 // move right
                 currentX += 1
                 currentDirectionX = "right"
-                if (currentY > endY) {
+                if (currentY >= endY && currentY > 1) {
                     // go down
                     currentY -= 1
                     currentDirectionY = "down"
-                } else if (currentY <= endY) {
+                } else if (currentY <= endY && currentY < 8) {
                     // go up
                     currentY += 1
                     currentDirectionY = "up"
@@ -109,9 +101,12 @@ object Main {
 
             } // end if else
 
-            println("Checking if direction changed...")
+            
             // Check if direction changed
-            if (prevDirectionX.length() > 0 && prevDirectionY.length() > 0) {
+            println(s"Previous direction x: ${prevDirectionX}")
+            println(s"Current direction x: ${currentDirectionX}")
+            show("Checking if direction changed...")
+            if (prevDirectionX.length() > 0) {
                 if (currentDirectionX != prevDirectionX || currentDirectionY != prevDirectionY) {
                     currentMoveNum += 1
                     println("Changed direction!")
@@ -120,6 +115,17 @@ object Main {
                 }
                 
             } // end if
+
+            prevDirectionX = currentDirectionX
+            prevDirectionY = currentDirectionY
+
+
+            show(s"Current x: ${currentX}")
+            show(s"Current y: ${currentY}")
+            show(s"Current move num: ${currentMoveNum}")
+
+            show(s"Target x: ${endX}")
+            show(s"Target y: ${endY}")
 
 
         } // end while
