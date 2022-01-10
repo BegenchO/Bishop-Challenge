@@ -85,6 +85,33 @@ object BishopChallenge {
     } // end letterToNum
 
 
+    def convertToSquare(x: Int, y: Int): String = {
+
+        val xLetter = numToLetter(x)
+
+        return s"${xLetter}${y}"
+
+    } // end convertToSquare
+
+
+    def numToLetter(num: Int): String = {
+
+        val letter = num match {
+            case 1 => "a"
+            case 2 => "b"
+            case 3 => "c"
+            case 4 => "d"
+            case 5 => "e"
+            case 6 => "f"
+            case 7 => "g"
+            case 8 => "h"
+            case _ => ""
+        }
+        return letter
+
+    } // end numToLetter
+
+
     def getResponse(text: String): String = {
 
         println(text)
@@ -102,6 +129,7 @@ object BishopChallenge {
         var start = ""
         var end = ""
         var requestedMoveNum = ""
+        var moves = new ListBuffer[String]()
 
         // Validate user input to match requirements
         while (!allInputValidated) {
@@ -129,8 +157,6 @@ object BishopChallenge {
             if ("123456789".contains(requestedMoveNum)) {
                 moveNumValidated = true
             }
-
-            displayText(s"start: ${startValidated}, end: ${endValidated}, move: ${moveNumValidated}")
 
             // Final check if all validated
             if (startValidated && endValidated && moveNumValidated) {
@@ -169,7 +195,7 @@ object BishopChallenge {
                 return false
             }
 
-        }
+        } // end if else
 
         // Finally check if enough moves to get there
         var currentX = startX
@@ -179,7 +205,7 @@ object BishopChallenge {
         var prevDirectionY = ""
         var currentDirectionX = ""
         var currentDirectionY = ""
-        
+
 
         // Continue moving until you get there or run out of moves requested, whichever comes first
         while (currentX != endX || currentY != endY) {
@@ -218,6 +244,9 @@ object BishopChallenge {
 
             } // end if else
 
+            // Append each move to the list to display all moves from start to end
+            val moveTaken = convertToSquare(currentX, currentY)
+            moves.addOne(moveTaken)
             
             // Check if direction changed to count moves
             if (prevDirectionX.length() > 0) {
@@ -234,6 +263,11 @@ object BishopChallenge {
         // Display results
         if (requestedMoveNum.toInt >= currentMoveNum) {
             displayText(s"SUCCESS: Number of moves required to move bishop from ${start} to ${end} was under ${requestedMoveNum}: ${currentMoveNum}")
+
+            // Display moves taken
+            moves.foreach(move => print(move + " -> "))
+            displayText("Moves taken from start to end")
+
             return true
         } else {
             displayText(s"BAD NEWS: Number of moves required to move bishop from ${start} to ${end} was not enough as requested was ${requestedMoveNum} and the actual number it took was ${currentMoveNum}")
