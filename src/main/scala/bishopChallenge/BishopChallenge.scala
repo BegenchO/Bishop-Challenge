@@ -211,38 +211,28 @@ object BishopChallenge {
         while (currentX != endX || currentY != endY) {
 
             // Check direction to move
+            
             // First check if left or right
-            // Then check if down or up
-
             if (currentX > endX && currentX > 1) {
                 // move left
                 currentX -= 1
                 currentDirectionX = "left"
-                if (currentY >= endY && currentY > 1) {
-                    // go down
-                    currentY -= 1
-                    currentDirectionY = "down"
-                } else if (currentY <= endY && currentY < 8) {
-                    // go up
-                    currentY += 1
-                    currentDirectionY = "up"
-                }
-
             } else if (currentX <= endX && currentX < 8) {
                 // move right
                 currentX += 1
                 currentDirectionX = "right"
-                if (currentY >= endY && currentY > 1) {
-                    // go down
-                    currentY -= 1
-                    currentDirectionY = "down"
-                } else if (currentY <= endY && currentY < 8) {
-                    // go up
-                    currentY += 1
-                    currentDirectionY = "up"
-                }
-
             } // end if else
+
+            // Then check if down or up
+            if (currentY >= endY && currentY > 1) {
+                // go down
+                currentY -= 1
+                currentDirectionY = "down"
+            } else if (currentY <= endY && currentY < 8) {
+                // go up
+                currentY += 1
+                currentDirectionY = "up"
+            }
 
             // Append each move to the list to display all moves from start to end
             val moveTaken = convertToSquare(currentX, currentY)
